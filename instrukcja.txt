@@ -1,0 +1,62 @@
+Przed uruchomieniem aplikacji należy zainstalować paczkę mysql-server
+sudo apt-get install mysql-server
+lub
+sudo aptitude install mysql-server
+
+Nalezy zalogowac sie do konsoli mysql poleceniem
+
+mysql -u root -p
+a nastepnie podac wpisane przy instalacji haslo
+
+tworzymy baze dla projektu
+
+create database notes;
+use notes;
+
+Nastepnie wklejamy do konsoli zawartośc pliku install.sql i dajemy ENTER
+Powinno to wyglądać mniej więcej jak poniżej
+
+mysql> SET foreign_key_checks = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> drop table if exists thread;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> drop table if exists category;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> drop table if exists note;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> SET foreign_key_checks = 1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> create table category(id int primary key not null auto_increment,
+    -> name char(255) not null unique,
+    -> description text not null
+    -> )ENGINE=INNODB;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> 
+mysql> 
+mysql> create table thread(id int primary key not null auto_increment,
+    -> name char(255) not null unique,
+    -> category_id int not null,
+    -> FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
+    -> )ENGINE=INNODB;
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> create table note(id int primary key not null auto_increment,
+    -> content text not null,
+    -> thread_id int not null,
+    -> FOREIGN KEY (thread_id) REFERENCES thread(id) ON DELETE CASCADE
+    -> )ENGINE=INNODB;
+Query OK, 0 rows affected (0.11 sec)
+
+
+Koniec konfiguracji bazy!
